@@ -51,7 +51,26 @@ print(df.head())
 
 # Assuming 'EloDiff' is your independent variable and 'WhiteWin' is your dependent variable
 # Add a constant to the independent variable to include an intercept in the model
-X = sm.add_constant(df['EloDiff'])  # Adds a constant term to the predictor
+
+
+
+
+
+# X = sm.add_constant(df['EloDiff'])  # Adds a constant term to the predictor
+# y = df['WhiteWin']
+
+# # Fit the model
+# model = sm.OLS(y, X).fit()
+
+# # Print the summary
+# print(model.summary())
+
+ECO_dummies = pd.get_dummies(df['Opening'], drop_first=True, dtype=int)  # Convert 'ECO' into dummy variables
+print(ECO_dummies)
+#X = pd.concat([df[['EloDiff']], ECO_dummies], axis=1)  # Concatenate 'EloDiff' and the dummy variables
+X = pd.concat([df[['EloDiff']], ECO_dummies], axis=1)  # Concatenate 'EloDiff' and the dummy variables
+print(X)
+X = sm.add_constant(X)  # Adds a constant term to the predictor
 y = df['WhiteWin']
 
 # Fit the model
@@ -59,8 +78,6 @@ model = sm.OLS(y, X).fit()
 
 # Print the summary
 print(model.summary())
-
-
 
 
 correlation, p_value = pearsonr(df['EloDiff'], df['WhiteWin'])
