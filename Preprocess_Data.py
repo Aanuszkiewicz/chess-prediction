@@ -5,7 +5,7 @@ import io
 import gc
 import time
 
-boardspacer = "\n- - - - - - - -"
+boardspacer = "\n- - - - - - - -" # Used for printing board state
 
 # Load the dataset
 pretime = time.time() # timestamp
@@ -16,7 +16,7 @@ print("Data successfully read. Columns:", df.columns)
 
 # Cut dataset in half
 print("Reducing dataset size...")
-df = df.sample(frac=0.5)
+df = df.sample(frac=0.01)
 
 print("Engineering features...")
 
@@ -39,7 +39,17 @@ games.drop(columns=columns_to_drop, inplace=True)
 print("Calculating ELO difference...")
 games['EloDiff'] = games['WhiteElo'] - games['BlackElo']
 
-# Count total number of moves made (more time needed)
+# Win indicator (1 = white win, 0.5 = tie, 0 = black win)
+print("Creating win indicator...")
+games['WhiteWin'] = games['Result'].apply(lambda x: 1 if x == '1-0' else (0.5 if x == '1/2-1/2' else 0)) 
+
+# Time Limit
+print("Creating time limits...")
+def getNumTimeLimit(str):
+    return int(str.split("+")[0])
+games['TimeLimit'] = games['TimeControl'].apply(getNumTimeLimit)
+
+# # Count total number of moves made (more time needed)
 # print("Calculating total ply...")
 # games['TotalPly'] = 0
 # for i in range(len(games)):
@@ -53,7 +63,7 @@ print("Successfully engineered features.")
 
 # Save the processed dataset to a new CSV file, if needed
 print("Saving to new CSV file...")
-games.to_csv('processed_chess_dataset2.csv', index=False)
+games.to_csv('processed_chess_dataset.csv', index=False)
 
 posttime = time.time() # timestamp
 print("[DONE] (" + str(round(posttime - pretime, 3)) + "s)")
