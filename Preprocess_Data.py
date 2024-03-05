@@ -14,6 +14,10 @@ df = pd.read_csv('chess_games.csv')
 
 print("Data successfully read. Columns:", df.columns)
 
+# Cut dataset in half
+print("Reducing dataset size...")
+df = df.sample(frac=0.5)
+
 print("Engineering features...")
 
 # Only keep classical game rows
@@ -36,20 +40,20 @@ print("Calculating ELO difference...")
 games['EloDiff'] = games['WhiteElo'] - games['BlackElo']
 
 # Count total number of moves made (more time needed)
-print("Calculating total ply...")
-games['TotalPly'] = 0
-for i in range(len(games)):
-    moves = games.at[i, 'AN']
-    pgn = io.StringIO(moves)
-    game = chess.pgn.read_game(pgn)
-    ply = game.end().board().ply()
-    games.at[i, 'TotalPly'] = ply
+# print("Calculating total ply...")
+# games['TotalPly'] = 0
+# for i in range(len(games)):
+#     moves = games.at[i, 'AN']
+#     pgn = io.StringIO(moves)
+#     game = chess.pgn.read_game(pgn)
+#     ply = game.end().board().ply()
+#     games.at[i, 'TotalPly'] = ply
 
 print("Successfully engineered features.")
 
 # Save the processed dataset to a new CSV file, if needed
 print("Saving to new CSV file...")
-games.to_csv('processed_chess_dataset.csv', index=False)
+games.to_csv('processed_chess_dataset2.csv', index=False)
 
 posttime = time.time() # timestamp
 print("[DONE] (" + str(round(posttime - pretime, 3)) + "s)")
