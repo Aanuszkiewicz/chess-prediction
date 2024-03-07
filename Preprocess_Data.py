@@ -16,7 +16,7 @@ print("Data successfully read. Columns:", df.columns)
 
 # Cut dataset in half
 print("Reducing dataset size...")
-df = df.sample(frac=0.01)
+df = df.sample(frac=1)
 
 print("Engineering features...")
 

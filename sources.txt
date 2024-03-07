@@ -1,7 +1,13 @@
 https://en.wikipedia.org/wiki/Algebraic_notation_(chess)
+https://chessopenings.com/eco/
 
 https://en.wikipedia.org/wiki/Linear_regression
 https://www.scribbr.com/statistics/simple-linear-regression/
 https://en.wikipedia.org/wiki/P-value
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2992018/
 https://stats.oarc.ucla.edu/spss/faq/coding-systems-for-categorical-variables-in-regression-analysis-2/
+https://stats.stackexchange.com/questions/22381/why-not-approach-classification-through-regression
+https://www.turing.com/kb/beginners-guide-to-complete-mathematical-intuition-behind-linear-regression-algorithms
+
+https://www.datacamp.com/tutorial/understanding-logistic-regression-python
+https://web.stanford.edu/~jurafsky/slp3/5.pdf
