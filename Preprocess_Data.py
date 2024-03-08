@@ -16,13 +16,13 @@ print("Data successfully read. Columns:", df.columns)
 
 # Cut dataset in half
 print("Reducing dataset size...")
-df = df.sample(frac=1)
+df = df.sample(frac=0.05)
 
 print("Engineering features...")
 
 # Only keep classical game rows
 print("Filtering rows...")
-games = df[df['Event'] == ' Classical '].copy()
+games = df[(df['Event'] == ' Classical ') & (df['Result'] != '*')].copy()
 games.reset_index(drop=True, inplace=True)
 
 # Delete original dataframe and clear up memory
@@ -63,7 +63,7 @@ print("Successfully engineered features.")
 
 # Save the processed dataset to a new CSV file, if needed
 print("Saving to new CSV file...")
-games.to_csv('processed_chess_dataset.csv', index=False)
+games.to_csv('med_processed_chess_dataset.csv', index=False)
 
 posttime = time.time() # timestamp
 print("[DONE] (" + str(round(posttime - pretime, 3)) + "s)")
