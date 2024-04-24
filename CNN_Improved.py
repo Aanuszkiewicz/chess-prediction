@@ -23,7 +23,7 @@ from Chess_Tools import tensorize
 
 # Configuration
 fileName = "large_processed_chess_dataset.csv"
-modelName = "ChessPrediction.keras"
+modelName = "ChessPrediction2.keras"
 loadModel = False
 epochs = 30
 
@@ -48,17 +48,15 @@ if not loadModel:
     model = Sequential([
         Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=(18, 8, 8), kernel_regularizer=l2(0.01)),
         BatchNormalization(),
-        MaxPooling2D((2, 2)),
-        Dropout(0.25),
+        Dropout(0.2),
         
         Conv2D(64, (3, 3), padding='same', activation='relu', kernel_regularizer=l2(0.01)),
         BatchNormalization(),
-        MaxPooling2D(pool_size=(2, 2)),
-        Dropout(0.25),
+        Dropout(0.2),
         
         Flatten(),
         Dense(128, activation='relu', kernel_regularizer=l2(0.01)),
-        Dropout(0.5),
+        Dropout(0.4),
         Dense(3, activation='softmax')
     ])
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
