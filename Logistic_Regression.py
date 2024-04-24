@@ -28,7 +28,7 @@ print()
 XTrain, XTest, yTrain, yTest = train_test_split(X, y, test_size=0.2, random_state=7)
 
 # Scale data
-scaler = StandardScaler() #Transforms features to have a mean of 0 and a standard deviation of 1
+scaler = StandardScaler() # Transforms features to have a mean of 0 and a standard deviation of 1
 XTrainScaled = scaler.fit_transform(XTrain)
 XTestScaled = scaler.transform(XTest)
 

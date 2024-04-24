@@ -1,0 +1,84 @@
+import chess
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder
+import tensorflow as tf
+from tensorflow.keras.models import Sequential # type: ignore
+from tensorflow.keras.layers import Conv2D, Flatten, Dense, Dropout, MaxPooling2D # type: ignore
+from tensorflow.keras.utils import to_categorical # type: ignore
+from tensorflow.keras.layers import BatchNormalization # type: ignore
+from tensorflow.keras.regularizers import l2 # type: ignore
+from tensorflow.keras.models import load_model # type: ignore
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import classification_report, confusion_matrix
+
+from Chess_Tools import vectorize_board
+from Chess_Tools import getMoveTensor
+from Chess_Tools import getPieceTensor
+from Chess_Tools import tensorize
+
+# Configuration
+fileName = "eval_small_processed_chess_dataset.csv"
+modelName = "ChessPrediction.keras"
+
+print(f"Reading {fileName}...")
+df = pd.read_csv(fileName)
+
+model = load_model(modelName)
+model.summary()
+
+# Evaluation: Model accuracy v steps away from final board state
+stepCount = 20
+accuracies = []
+losses = []
+label_encoder = LabelEncoder()
+
+print("Step evaluations")
+def doStepEvaluations():
+    dfnames = ['FinalFEN']
+    for step in range(stepCount):
+        dfnames.append('LastFEN' + str(step + 1))
+    print(dfnames)
+    y = to_categorical(label_encoder.fit_transform(df['Result'].values))
+    for dfname in dfnames:
+        X = tensorize(df[dfname], df[dfname])
+        loss, accuracy = model.evaluate(X, y, verbose=0)
+        losses.append(loss)
+        accuracies.append(accuracy)
+    print("Losses:", losses)
+    print("Accuracies:", accuracies)
+doStepEvaluations()
+
+plt.figure(figsize=(10, 6))
+plt.plot(range(stepCount + 1), accuracies, marker='o', linestyle='-')
+plt.xticks(range(stepCount + 1))
+plt.title('Model Accuracy v. Steps Away from Final Board State')
+plt.xlabel('Steps Away from Final Board State')
+plt.ylabel('Model Accuracy')
+plt.grid(True)
+plt.show()
+
+""" Loss plotting
+losses = [0.49460121989250183, 0.6558274030685425, 0.6016228199005127, 0.6960790753364563, 0.6398802399635315, 0.7267953753471375, 0.6684942841529846, 0.7498390674591064, 0.6893791556358337, 0.7703445553779602, 0.712554931640625, 0.7885956764221191, 0.7251893281936646, 0.8042467832565308, 0.7412240505218506, 0.8167039155960083, 0.7565972208976746, 0.8345667719841003, 0.7724511027336121, 0.8479306697845459, 0.7854674458503723]
+plt.figure(figsize=(10, 6))
+plt.plot(range(stepCount + 1), losses, marker='o', linestyle='-')
+plt.xticks(range(stepCount + 1))
+plt.title('Model Loss v. Steps Away from Final Board State')
+plt.xlabel('Steps Away from Final Board State')
+plt.ylabel('Model Loss')
+plt.grid(True)
+plt.show()
+"""
+
+# Predict on completely random data, as if we were making real predictions (FinalFEN <- RandomFEN)
+print("Performing realistic test")
+df2 = pd.read_csv('sm_realistic_processed_chess_dataset.csv')
+X = tensorize(df2['RandomFEN'], df2['FinalFEN'])
+y = to_categorical(label_encoder.fit_transform(df2['Result'].values))
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.9, random_state=7)
+test_loss, test_accuracy = model.evaluate(X_test, y_test, verbose=0)
+print(f"Realistic test loss: {test_loss}, Realistic test accuracy: {test_accuracy}")
+

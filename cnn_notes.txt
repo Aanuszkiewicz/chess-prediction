@@ -1,0 +1,76 @@
+Originally tried feeding final FEN - causes representative problem
+
+med_processed
+Epoch 10/10
+853/853 ━━━━━━━━━━━━━━━━━━━━ 3s 4ms/step - accuracy: 0.8328 - loss: 0.4420 - val_accuracy: 0.8558 - val_loss: 0.3936
+Test loss: 0.8456695675849915 / Test accuracy: 0.5740466713905334
+
+
+No piece tensors:
+Test loss: 0.5623752474784851, Test accuracy: 0.8170650601387024
+95/95 ━━━━━━━━━━━━━━━━━━━━ 0s 1ms/step  
+              precision    recall  f1-score   support
+
+           0       0.84      0.80      0.82      1351
+           1       0.80      0.90      0.85      1530
+           2       1.00      0.01      0.02       131
+
+    accuracy                           0.82      3012
+   macro avg       0.88      0.57      0.56      3012
+weighted avg       0.83      0.82      0.80      3012
+
+Realistic test loss: 0.8945403099060059, Realistic test accuracy: 0.5804592967033386
+
+For piece tensors
+Test loss: 0.5440462827682495, Test accuracy: 0.8293492794036865
+95/95 ━━━━━━━━━━━━━━━━━━━━ 0s 2ms/step 
+              precision    recall  f1-score   support
+
+           0       0.83      0.86      0.84      1351
+           1       0.83      0.88      0.85      1530
+           2       1.00      0.01      0.02       131
+
+    accuracy                           0.83      3012
+   macro avg       0.89      0.58      0.57      3012
+weighted avg       0.84      0.83      0.81      3012
+
+Realistic test loss: 0.8962467312812805, Realistic test accuracy: 0.5841159820556641
+
+Increased L2 regularization (0.01), increased patience (15):
+Test loss: 0.5326062440872192, Test accuracy: 0.83432936668396
+95/95 ━━━━━━━━━━━━━━━━━━━━ 0s 2ms/step 
+              precision    recall  f1-score   support
+
+           0       0.83      0.86      0.84      1351
+           1       0.85      0.87      0.86      1530
+           2       0.54      0.21      0.30       131
+
+    accuracy                           0.83      3012
+   macro avg       0.74      0.64      0.67      3012
+weighted avg       0.83      0.83      0.83      3012
+
+Realistic test loss: 0.8932566046714783, Realistic test accuracy: 0.5898771286010742
+
+Final model:
+              precision    recall  f1-score   support
+
+           0       0.83      0.91      0.87     69546
+           1       0.88      0.86      0.87     75458
+           2       0.87      0.09      0.17      6111
+
+    accuracy                           0.85    151115
+   macro avg       0.86      0.62      0.63    151115
+weighted avg       0.85      0.85      0.84    151115
+
+Index: 0, Label: 0-1
+Index: 1, Label: 1-0
+Index: 2, Label: 1/2-1/2
+
+Step evaluations
+['FinalFEN', 'LastFEN1', 'LastFEN2', 'LastFEN3', 'LastFEN4', 'LastFEN5', 'LastFEN6', 'LastFEN7', 'LastFEN8', 'LastFEN9', 'LastFEN10', 'LastFEN11', 'LastFEN12', 'LastFEN13', 'LastFEN14', 'LastFEN15', 'LastFEN16', 'LastFEN17', 'LastFEN18', 'LastFEN19', 'LastFEN20']
+Losses: [0.49460121989250183, 0.6558274030685425, 0.6016228199005127, 0.6960790753364563, 0.6398802399635315, 0.7267953753471375, 0.6684942841529846, 0.7498390674591064, 0.6893791556358337, 0.7703445553779602, 0.712554931640625, 0.7885956764221191, 0.7251893281936646, 0.8042467832565308, 0.7412240505218506, 0.8167039155960083, 0.7565972208976746, 0.8345667719841003, 0.7724511027336121, 0.8479306697845459, 0.7854674458503723]
+Accuracies: [0.8462865948677063, 0.74530428647995, 0.7796840667724609, 0.7176611423492432, 0.7559567093849182, 0.6930046081542969, 0.7338554263114929, 0.6765447854995728, 0.71975177526474, 0.6583593487739563, 0.7025619149208069, 0.644587516784668, 0.6897855997085571, 0.6259043216705322, 0.6772416830062866, 0.6150527596473694, 0.6626070141792297, 0.5975310206413269, 0.6531161069869995, 0.5892347693443298, 0.639477014541626]
+Performing realistic test
+Realistic test loss: 0.8455955386161804, Realistic test accuracy: 0.5857009291648865
+
+Expected ply of random board state: 32.35928795950104

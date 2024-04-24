@@ -1,0 +1,77 @@
+import chess
+import numpy as np
+
+def vectorize_board(FEN):
+    """
+    Convert a chess board into a vectorized form suitable for ML models.
+    
+    Parameters:
+    board (chess.Board): The board to vectorize.
+    
+    Returns:
+    np.array: A 64-element array representing the board state.
+    """
+    board = chess.Board()
+    board.set_fen(FEN)
+    piece_to_value = {
+        chess.PAWN: 1,
+        chess.KNIGHT: 3,
+        chess.BISHOP: 3,
+        chess.ROOK: 5,
+        chess.QUEEN: 9,
+        chess.KING: 10
+    }
+    vector = np.zeros(64, dtype=int)
+    pmoves = list(board.legal_moves) # legal moves
+    print(pmoves)
+    for square in chess.SQUARES:
+        piece = board.piece_at(square)
+        print(square, board.piece_at(square))
+        if piece:
+            value = piece_to_value[piece.piece_type]
+            if piece.color == chess.BLACK:
+                value = -value
+            vector[square] = value
+    return vector
+
+#sample = "r1bqk2r/ppp1bpp1/2np3p/8/2BPnB2/2P2N2/PP4PP/RN1Q1RK1 w kq - 0 9"
+##board = vectorize_board(sample)
+#board = np.reshape(board, (8, 8))
+#print(board)
+
+#print(np.zeros((2, 8, 8))[0][0][0])
+#print(np.zeros((8, 8, 2)))
+
+
+def reverse_consonants(str):
+    chars = []
+    newstr = ""
+    for char in str:
+        if char not in "aeiou":
+            chars.append(char)
+    return newstr.join(chars)[::-1]
+
+def deepcopy(intgrid):
+    copygrid = []
+    for i in range(len(intgrid)):
+        r = []
+        for j in range(len(intgrid[0])):
+            r.append(intgrid[i][j])
+        copygrid.append(r)
+    return copygrid
+
+# Example usage:
+original_grid = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+copied_grid = deepcopy(original_grid)
+
+# Modifying the copied grid to test independence
+copied_grid[0][0] = 100
+copied_grid[1].append(600)
+
+print("Original Grid:", original_grid)  # Output: Original Grid: [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+print("Copied Grid:", copied_grid)      # Output: Copied Grid: [[100, 2, 3], [4, 5, 6, 600], [7, 8, 9]]
+
+
+    
+
+print(reverse_consonants("recursion"))
