@@ -19,10 +19,13 @@ from Chess_Tools import tensorize
 
 # Configuration
 fileName = "eval_small_processed_chess_dataset.csv"
+dummyfileName = "dummy_dataset.csv"
 modelName = "ChessPrediction2.keras"
 
 print(f"Reading {fileName}...")
 df = pd.read_csv(fileName)
+print(f"Reading {dummyfileName}...")
+dummydf = pd.read_csv(dummyfileName)
 
 model = load_model(modelName)
 model.summary()
@@ -33,6 +36,16 @@ accuracies = []
 losses = []
 label_encoder = LabelEncoder()
 
+# Dummy evaluations (always input starting board state)
+def doDummyEval():
+    print("Dummy evaluations")
+    X = tensorize(dummydf['RandomFEN'], dummydf['FinalFEN'])
+    y = to_categorical(label_encoder.fit_transform(dummydf['Result'].values))
+    loss, accuracy = model.evaluate(X, y, verbose=0)
+    print(f"Naive test loss: {loss}, Naive test accuracy: {accuracy}")    
+doDummyEval()
+
+exit()
 print("Step evaluations")
 def doStepEvaluations():
     dfnames = ['FinalFEN']

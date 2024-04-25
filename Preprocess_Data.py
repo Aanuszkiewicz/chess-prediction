@@ -9,10 +9,11 @@ import random
 # Config
 fileName = 'chess_games.csv'
 outputFile = True
-outputFileName = 'eval_small_processed_chess_dataset.csv'
-reductionFraction = .02
+outputFileName = 'processed_dataset.csv'
+reductionFraction = .01
 balanceDataset = False
-LastMoveSave = 25
+LastMoveSave = 25 # 25 is preferred
+createDummyFENs = False
 
 boardspacer = "\n- - - - - - - -" # Used for printing board state
 startingBoardFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
@@ -24,7 +25,7 @@ df = pd.read_csv(fileName)
 
 print("Data successfully read. Columns:", df.columns)
 
-# Cut dataset in half
+# Cut dataset
 print("Reducing dataset size...")
 df = df.sample(frac=reductionFraction)
 
@@ -131,6 +132,11 @@ games["RandomFEN"] = randomFens()
 print("Saving last moves...")
 for xstep in lastMoves:
     games["LastFEN" + str(xstep)] = lastMoves[xstep]
+
+# Dummy FENs
+if createDummyFENs:
+    games["RandomFEN"] = startingBoardFEN
+    games["FinalFEN"] = startingBoardFEN
 
 print("Successfully engineered features.")
 
