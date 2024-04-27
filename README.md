@@ -4,3 +4,5 @@ This project utilizes a large chess game dataset and supervised machine learning
 
 Notes:
 * The processed dataset provided is a small sample of the full 1GB+ processed dataset
+
+![alt text](https://github.com/Aanuszkiewicz/chess-prediction/blob/master/1.jpg?raw=true)
